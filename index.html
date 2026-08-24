@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BOOMFEST KEDIRI — Pendaftaran Tenant</title>
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --y:#ffd400;
+  --y2:#ffb800;
+  --bg:#060606;
+  --bg2:#0c0c0d;
+  --card:#131316;
+  --card2:#1a1a1f;
+  --muted:#9a9a9a;
+  --line:#26262c;
+  --line2:#32323a;
+  --ok:#36d17c;
+  --red:#ff5757;
+  --glow:0 0 40px rgba(255,212,0,.25);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:#fff;font-family:'Plus Jakarta Sans',system-ui,-apple-system,Segoe UI,sans-serif;
+  line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+/* Background ambient */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;
+  background:
+    radial-gradient(circle at 15% 10%,rgba(255,212,0,.08),transparent 40%),
+    radial-gradient(circle at 85% 80%,rgba(255,184,0,.06),transparent 45%),
+    radial-gradient(circle at 50% 50%,rgba(255,212,0,.02),transparent 60%);
+  pointer-events:none;
+}
+body::after{
+  content:"";position:fixed;inset:0;z-index:-1;
+  background-image:
+    linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+  background-size:60px 60px;mask-image:radial-gradient(circle at 50% 50%,#000 30%,transparent 80%);
+  pointer-events:none;
+}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+
+/* ===== NAVBAR ===== */
+nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(8,8,10,.78);backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  border-bottom:1px solid var(--line);
+}
+.nav{height:68px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:17px;letter-spacing:.5px}
+.logo img{width:38px;height:38px;border-radius:9px;object-fit:cover;box-shadow:var(--glow)}
+.logo b{color:var(--y)}
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links a{color:#cfcfcf;font-size:14px;font-weight:600;transition:color .2s}
+.nav-links a:hover{color:var(--y)}
+.btn{
+  border:0;border-radius:11px;padding:12px 18px;font-weight:800;cursor:pointer;
+  font-family:inherit;font-size:14px;transition:transform .15s,box-shadow .25s,background .2s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn:active{transform:scale(.97)}
+.primary{background:linear-gradient(135deg,var(--y),var(--y2));color:#000;box-shadow:0 6px 22px rgba(255,212,0,.32)}
+.primary:hover{box-shadow:0 10px 30px rgba(255,212,0,.45);transform:translateY(-1px)}
+.dark{background:#1a1a1f;color:#fff;border:1px solid var(--line2)}
+.dark:hover{background:#22222a}
+.ghost{background:transparent;color:#fff;border:1px solid var(--line2)}
+.ghost:hover{border-color:var(--y);color:var(--y)}
+.nav-cta{display:flex;gap:10px;align-items:center}
+
+/* ===== HERO ===== */
+.hero{position:relative;padding:80px 0 70px;overflow:hidden}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;opacity:.55;
+  background:url('banner.png') center/cover no-repeat;
+  mask-image:linear-gradient(180deg,#000 0%,transparent 90%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 90%);
+}
+.hero-bg::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(6,6,6,.4) 0%,rgba(6,6,6,.7) 60%,var(--bg) 100%);
+}
+.hero .wrap{position:relative;z-index:1}
+.badge{
+  display:inline-flex;align-items:center;gap:7px;color:#000;background:var(--y);
+  padding:8px 14px;border-radius:999px;font-weight:900;font-size:12px;letter-spacing:.6px;
+  box-shadow:var(--glow);animation:fadeUp .6s ease both;
+}
+.badge i{font-size:11px}
+.hero h1{
+  font-family:'Space Grotesk','Plus Jakarta Sans',sans-serif;
+  font-size:clamp(48px,10vw,108px);line-height:.92;margin:22px 0 18px;letter-spacing:-4px;font-weight:700;
+  animation:fadeUp .7s ease .1s both;
+}
+.hero h1 span{color:var(--y);text-shadow:0 0 50px rgba(255,212,0,.4)}
+.hero p{max-width:680px;color:#c8c8c8;font-size:17px;animation:fadeUp .8s ease .2s both}
+.meta{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0;animation:fadeUp .9s ease .3s both}
+.meta span{
+  display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line2);
+  border-radius:11px;background:rgba(255,255,255,.04);font-size:13px;font-weight:600;backdrop-filter:blur(8px);
+}
+.meta i{color:var(--y)}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;animation:fadeUp 1s ease .4s both}
+.stats{display:flex;gap:38px;margin-top:54px;flex-wrap:wrap;animation:fadeUp 1.1s ease .5s both}
+.stat-num{font-family:'Space Grotesk';font-size:38px;font-weight:700;color:var(--y);letter-spacing:-1px}
+.stat-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:700}
+
+/* ===== SECTION ===== */
+section{padding:70px 0;position:relative}
+.title{text-align:center;margin-bottom:42px}
+.title small{
+  display:inline-block;color:#000;background:var(--y);padding:5px 11px;border-radius:6px;
+  font-weight:900;letter-spacing:1.8px;font-size:11px;margin-bottom:14px;
+}
+.title h2{font-family:'Space Grotesk';font-size:clamp(28px,4.5vw,42px);margin:6px 0;letter-spacing:-1.5px;font-weight:700}
+.title p{color:var(--muted);max-width:560px;margin:8px auto 0}
+
+/* ===== CARDS ===== */
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{
+  background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid var(--line);border-radius:20px;padding:26px;position:relative;overflow:hidden;
+  transition:transform .3s,border-color .3s,box-shadow .3s;
+}
+.card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,#3a3a42,transparent);transition:.3s;
+}
+.card:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.card:hover::before{background:linear-gradient(90deg,transparent,var(--y),transparent)}
+.card.featured{border:1.5px solid var(--y);box-shadow:0 0 0 1px rgba(255,212,0,.2),0 20px 60px rgba(255,212,0,.12)}
+.card.featured::before{background:linear-gradient(90deg,transparent,var(--y),transparent)}
+.tag-pill{
+  display:inline-block;font-size:11px;font-weight:900;letter-spacing:1.2px;color:var(--muted);
+  text-transform:uppercase;margin-bottom:4px;
+}
+.card.featured .tag-pill{color:var(--y)}
+.price{font-family:'Space Grotesk';font-size:34px;font-weight:700;color:#fff;margin:6px 0 14px;letter-spacing:-1px}
+.price span{color:var(--y)}
+.card ul{padding:0;margin:14px 0 0;list-style:none}
+.card li{padding:9px 0;color:#c4c4c4;font-size:14px;display:flex;gap:10px;align-items:flex-start;border-top:1px solid var(--line)}
+.card li i{color:var(--y);font-size:11px;margin-top:5px}
+.choose-btn{margin-top:18px;width:100%;justify-content:center}
+
+/* ===== FORM ===== */
+.formbox{
+  max-width:920px;margin:auto;
+  background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid var(--line);border-radius:24px;padding:clamp(20px,4vw,40px);
+  box-shadow:0 30px 80px rgba(0,0,0,.4);
+}
+.step{
+  display:flex;align-items:center;gap:14px;
+  border-bottom:1px solid var(--line);padding-bottom:14px;margin:30px 0 22px;
+}
+.step:first-child{margin-top:0}
+.step-num{
+  flex-shrink:0;width:38px;height:38px;border-radius:11px;
+  background:linear-gradient(135deg,var(--y),var(--y2));color:#000;
+  display:grid;place-items:center;font-weight:900;font-family:'Space Grotesk';font-size:15px;
+  box-shadow:var(--glow);
+}
+.step-info h3{margin:0;font-size:18px;letter-spacing:-.3px}
+.step-info p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:7px}
+label{font-size:13px;font-weight:700;letter-spacing:.2px;display:flex;align-items:center;gap:6px}
+label i{color:var(--y);font-size:11px}
+input,select,textarea{
+  width:100%;background:#080808;border:1px solid #30303a;color:#fff;border-radius:11px;
+  padding:13px 14px;outline:0;font-family:inherit;font-size:14px;transition:border-color .2s,box-shadow .2s,background .2s;
+}
+input::placeholder,textarea::placeholder{color:#666}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--y);background:#0a0a0a;box-shadow:0 0 0 3px rgba(255,212,0,.12);
+}
+textarea{min-height:95px;resize:vertical}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23ffd400' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.help{font-size:12px;color:#888;font-weight:500}
+.help a{color:var(--y);text-decoration:underline}
+
+/* Payment box */
+.pay{
+  padding:18px;background:linear-gradient(135deg,rgba(255,212,0,.06),rgba(255,184,0,.02));
+  border:1px solid rgba(255,212,0,.25);border-radius:14px;margin-bottom:16px;
+}
+.pay-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.pay-head b{color:var(--y);font-size:13px;letter-spacing:.5px}
+.pay-head i{color:var(--y)}
+.pay-body{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+.pay-detail{font-size:14px;line-height:1.9}
+.pay-detail .row{display:flex;gap:8px;align-items:center}
+.pay-detail .row span{color:var(--muted);font-size:12px;min-width:90px}
+.pay-detail .row b{font-weight:800}
+.copy-btn{
+  background:#22222a;border:1px solid var(--line2);color:#fff;padding:6px 11px;border-radius:7px;
+  font-size:11px;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:5px;
+}
+.copy-btn:hover{border-color:var(--y);color:var(--y)}
+.qris-box{text-align:center}
+.qris-box img{width:130px;height:130px;border-radius:12px;border:1px solid var(--line2);background:#fff;padding:6px;box-shadow:var(--glow)}
+.qris-box small{display:block;margin-top:6px;font-size:11px;color:var(--muted);font-weight:600}
+
+/* Checkbox */
+.check{
+  display:flex;gap:12px;align-items:flex-start;margin:11px 0;color:#c4c4c4;font-size:13px;
+  padding:12px 14px;border:1px solid var(--line);border-radius:11px;background:rgba(255,255,255,.02);cursor:pointer;transition:.2s;
+}
+.check:hover{border-color:var(--line2)}
+.check input{width:auto;margin-top:3px;accent-color:var(--y);transform:scale(1.2)}
+.check span{line-height:1.5}
+
+/* Actions */
+.actions{display:flex;gap:12px;margin-top:28px;padding-top:22px;border-top:1px solid var(--line)}
+.actions .btn{flex:1;justify-content:center;padding:14px 18px;font-size:15px}
+
+/* Status */
+.status{display:none;margin-top:18px;padding:16px;border-radius:12px;font-size:14px}
+.status.show{display:block;animation:fadeUp .3s ease}
+.status.ok{background:rgba(54,209,124,.08);border:1px solid rgba(54,209,124,.4);color:#7ee5a8}
+.status.err{background:rgba(255,87,87,.08);border:1px solid rgba(255,87,87,.4);color:#ff8a8a}
+.status a{color:var(--y);font-weight:800}
+.status i{margin-right:6px}
+
+/* Modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:100}
+.modal.show{display:flex;animation:fadeIn .3s ease}
+.modalbox{
+  width:min(540px,100%);background:linear-gradient(180deg,var(--card),var(--card2));
+  border:1px solid var(--y);border-radius:22px;padding:34px 28px;text-align:center;position:relative;
+  box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,212,0,.2);animation:popIn .4s cubic-bezier(.2,.9,.3,1.2);
+}
+.modal-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--y),var(--y2));display:grid;place-items:center;margin:0 auto 16px;font-size:28px;color:#000;box-shadow:var(--glow)}
+.modalbox h2{margin:0 0 6px;font-family:'Space Grotesk';letter-spacing:-.5px}
+.modalbox p{color:var(--muted);font-size:14px;margin:0 0 10px}
+.code{
+  font-family:'Space Grotesk';font-size:28px;color:var(--y);font-weight:700;
+  background:#070707;border:1px dashed var(--y);padding:14px;border-radius:12px;margin:16px 0;
+  letter-spacing:1px;box-shadow:inset 0 0 30px rgba(255,212,0,.05);
+}
+.wa{display:block;background:linear-gradient(135deg,#25d366,#1da851);color:#fff;padding:13px;border-radius:11px;font-weight:800;margin:14px 0 9px;transition:transform .15s,box-shadow .2s}
+.wa:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(37,211,102,.4)}
+.wa i{margin-right:6px}
+
+/* Footer */
+footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px;margin-top:30px}
+.footer-grid{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.footer-brand{display:flex;align-items:center;gap:10px;font-weight:800;color:#fff}
+.footer-brand img{width:32px;height:32px;border-radius:8px}
+.footer-links{display:flex;gap:18px;flex-wrap:wrap}
+.footer-links a{transition:color .2s}
+.footer-links a:hover{color:var(--y)}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+
+/* Floating help button */
+.float-wa{position:fixed;bottom:24px;right:24px;z-index:60;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 24px rgba(37,211,102,.5);transition:transform .2s}
+.float-wa:hover{transform:scale(1.1) rotate(8deg)}
+
+/* Responsive */
+@media(max-width:860px){
+  .cards{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr}
+  .full{grid-column:auto}
+  .actions{flex-direction:column}
+  .hero h1{letter-spacing:-2px}
+  .nav-links{display:none}
+  .pay-body{grid-template-columns:1fr;text-align:center}
+  .qris-box img{margin:auto}
+  .stats{gap:24px}
+}
+@media(max-width:480px){
+  .hero{padding:60px 0 50px}
+  .meta span{font-size:12px;padding:8px 11px}
+  .stat-num{font-size:30px}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <div class="wrap nav">
+    <a href="#" class="logo"><img src="logo.png" alt="BOOMFEST"><span>BOOM<b>FEST</b> KEDIRI</span></a>
+    <div class="nav-links">
+      <a href="#paket">Paket</a>
+      <a href="#daftar">Daftar</a>
+      <a href="#pembayaran">Pembayaran</a>
+      <a href="#kontak">Kontak</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn primary" href="#daftar"><i class="fa-solid fa-ticket"></i> Daftar Tenant</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="wrap">
+    <span class="badge"><i class="fa-solid fa-fire"></i> PENDAFTARAN TENANT 2026</span>
+    <h1>BOOM<span>FEST</span><br>KEDIRI</h1>
+    <p>Jadilah bagian dari BOOMFEST KEDIRI — festival terbesar di Kediri. Promosikan produk, buka booth, dan bertemu langsung dengan ribuan pengunjung festival.</p>
+    <div class="meta">
+      <span><i class="fa-solid fa-calendar"></i> 18 Oktober 2026</span>
+      <span><i class="fa-solid fa-location-dot"></i> Tirtayasa Park, Kediri</span>
+      <span><i class="fa-solid fa-shop"></i> Kuota 30 Booth</span>
+      <span><i class="fa-solid fa-clock"></i> Tutup 30 September 2026</span>
+    </div>
+    <div class="hero-actions">
+      <a class="btn primary" href="#daftar"><i class="fa-solid fa-rocket"></i> Mulai Pendaftaran</a>
+      <a class="btn ghost" href="#paket"><i class="fa-solid fa-tag"></i> Lihat Paket</a>
+    </div>
+    <div class="stats">
+      <div><div class="stat-num">30+</div><div class="stat-label">Booth Tenant</div></div>
+      <div><div class="stat-num">5K+</div><div class="stat-label">Pengunjung</div></div>
+      <div><div class="stat-num">12H</div><div class="stat-label">Durasi Event</div></div>
+      <div><div class="stat-num">50+</div><div class="stat-label">Komunitas</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PAKET ===== -->
+<section id="paket">
+  <div class="wrap">
+    <div class="title">
+      <small>PAKET TENANT</small>
+      <h2>Pilih Paket Booth</h2>
+      <p>Harga dan fasilitas dapat disesuaikan kembali di konfigurasi backend panitia.</p>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="tag-pill">UMKM</span>
+        <div class="price">Rp<span>750K</span></div>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Space ±2×2 m</li>
+          <li><i class="fa-solid fa-check"></i> 1 meja + 2 kursi</li>
+          <li><i class="fa-solid fa-check"></i> Listrik standar</li>
+          <li><i class="fa-solid fa-check"></i> ID / akses tenant</li>
+          <li><i class="fa-solid fa-check"></i> Keamanan & akses loading</li>
+        </ul>
+        <button class="btn dark choose-btn" data-paket="UMKM">Pilih Paket UMKM</button>
+      </div>
+      <div class="card featured">
+        <span class="tag-pill">★ REGULER • FAVORIT</span>
+        <div class="price">Rp<span>1.250K</span></div>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Space ±3×2 m</li>
+          <li><i class="fa-solid fa-check"></i> Tenda / booth</li>
+          <li><i class="fa-solid fa-check"></i> 1 meja + 3 kursi</li>
+          <li><i class="fa-solid fa-check"></i> Listrik standar</li>
+          <li><i class="fa-solid fa-check"></i> Posisi lebih strategis</li>
+          <li><i class="fa-solid fa-check"></i> Keamanan & akses loading</li>
+        </ul>
+        <button class="btn primary choose-btn" data-paket="REGULER">Pilih Paket Reguler</button>
+      </div>
+      <div class="card">
+        <span class="tag-pill">PREMIUM / BRAND</span>
+        <div class="price">Rp<span>2.000K</span></div>
+        <ul>
+          <li><i class="fa-solid fa-check"></i> Space ±3×3 m</li>
+          <li><i class="fa-solid fa-check"></i> Booth premium</li>
+          <li><i class="fa-solid fa-check"></i> 1 meja + 4 kursi</li>
+          <li><i class="fa-solid fa-check"></i> Listrik standar</li>
+          <li><i class="fa-solid fa-check"></i> Posisi strategis</li>
+          <li><i class="fa-solid fa-check"></i> Benefit branding sesuai ketentuan</li>
+        </ul>
+        <button class="btn dark choose-btn" data-paket="PREMIUM">Pilih Paket Premium</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FORM ===== -->
+<section id="daftar">
+  <div class="wrap">
+    <div class="title">
+      <small>REGISTRATION</small>
+      <h2>Form Pendaftaran Tenant</h2>
+      <p>Isi data dengan benar. Setelah dikirim, data masuk ke sistem panitia dan nomor registrasi dibuat otomatis.</p>
+    </div>
+    <div class="formbox">
+      <form id="tenantForm">
+
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-info"><h3>Penanggung Jawab</h3><p>Data PIC yang mudah dihubungi.</p></div>
+        </div>
+        <div class="grid">
+          <div class="field"><label><i class="fa-solid fa-user"></i> Nama Lengkap *</label><input name="nama" required></div>
+          <div class="field"><label><i class="fa-brands fa-whatsapp"></i> Nomor WhatsApp *</label><input name="whatsapp" type="tel" placeholder="08xxxxxxxxxx" required></div>
+          <div class="field"><label><i class="fa-solid fa-envelope"></i> Email *</label><input name="email" type="email" required></div>
+          <div class="field"><label><i class="fa-solid fa-city"></i> Kota / Kabupaten *</label><input name="kota" required></div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-info"><h3>Informasi Usaha</h3><p>Data brand dan produk yang akan dijual.</p></div>
+        </div>
+        <div class="grid">
+          <div class="field"><label><i class="fa-solid fa-store"></i> Nama Usaha / Brand *</label><input name="brand" required></div>
+          <div class="field"><label><i class="fa-solid fa-tags"></i> Kategori Usaha *</label>
+            <select name="kategori" required>
+              <option value="">Pilih kategori</option>
+              <option>Makanan</option><option>Minuman</option><option>Fashion</option>
+              <option>Beauty</option><option>Aksesoris / Merchandise</option>
+              <option>Produk Kreatif</option><option>Retail</option>
+              <option>Brand / Perusahaan</option><option>Lainnya</option>
+            </select>
+          </div>
+          <div class="field full"><label><i class="fa-solid fa-box"></i> Produk Yang Akan Dijual *</label><textarea name="produk" required></textarea></div>
+          <div class="field full"><label><i class="fa-brands fa-instagram"></i> Instagram / TikTok</label><input name="sosmed" placeholder="@username"></div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-info"><h3>Paket Tenant</h3><p>Pilih satu paket booth.</p></div>
+        </div>
+        <div class="grid">
+          <div class="field"><label><i class="fa-solid fa-ticket"></i> Paket *</label>
+            <select name="paket" id="paketSelect" required>
+              <option value="">Pilih paket</option>
+              <option value="UMKM">UMKM — Rp750.000</option>
+              <option value="REGULER">REGULER — Rp1.250.000</option>
+              <option value="PREMIUM">PREMIUM / BRAND — Rp2.000.000</option>
+            </select>
+          </div>
+          <div class="field"><label><i class="fa-solid fa-users"></i> Jumlah Personel *</label>
+            <select name="personel" required>
+              <option value="">Pilih</option><option>1</option><option>2</option>
+              <option>3</option><option>4</option><option>5+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">04</div>
+          <div class="step-info"><h3>Kebutuhan Teknis</h3><p>Informasikan kebutuhan listrik dan perlengkapan.</p></div>
+        </div>
+        <div class="grid">
+          <div class="field"><label><i class="fa-solid fa-bolt"></i> Membutuhkan Listrik? *</label>
+            <select name="listrik" required>
+              <option value="">Pilih</option><option>Ya</option><option>Tidak</option>
+            </select>
+          </div>
+          <div class="field"><label><i class="fa-solid fa-plug"></i> Peralatan Listrik</label><input name="peralatan" placeholder="Freezer, blender, oven, dll."></div>
+          <div class="field full"><label><i class="fa-solid fa-note-sticky"></i> Catatan / Kebutuhan Khusus</label><textarea name="catatan"></textarea></div>
+        </div>
+
+        <div class="step" id="pembayaran">
+          <div class="step-num">05</div>
+          <div class="step-info"><h3>Pembayaran</h3><p>Upload bukti transfer jika pembayaran sudah dilakukan.</p></div>
+        </div>
+        <div class="pay">
+          <div class="pay-head"><i class="fa-solid fa-shield-halved"></i> <b>REKENING RESMI PANITIA</b></div>
+          <div class="pay-body">
+            <div class="pay-detail" id="paymentInfo">
+              <div class="row"><span>Bank</span><b id="pBank">—</b> <button type="button" class="copy-btn" data-copy="pBank"><i class="fa-regular fa-copy"></i></button></div>
+              <div class="row"><span>No. Rekening</span><b id="pAccount">—</b> <button type="button" class="copy-btn" data-copy="pAccount"><i class="fa-regular fa-copy"></i></button></div>
+              <div class="row"><span>Atas Nama</span><b id="pName">—</b> <button type="button" class="copy-btn" data-copy="pName"><i class="fa-regular fa-copy"></i></button></div>
+            </div>
+            <div class="qris-box">
+              <img src="qris.png" alt="QRIS Pembayaran Resmi BOOMFEST KEDIRI">
+              <small>Scan via QRIS</small>
+            </div>
+          </div>
+          <div class="help" style="margin-top:12px"><i class="fa-solid fa-triangle-exclamation"></i> Jangan transfer ke rekening selain yang ditampilkan pada halaman resmi ini.</div>
+        </div>
+        <div class="grid">
+          <div class="field"><label><i class="fa-solid fa-circle-info"></i> Status Pembayaran *</label>
+            <select name="statusPembayaran" required>
+              <option value="">Pilih</option>
+              <option value="Belum Bayar">Belum Bayar</option>
+              <option value="Sudah Bayar">Sudah Bayar</option>
+            </select>
+          </div>
+          <div class="field"><label><i class="fa-solid fa-wallet"></i> Metode Pembayaran</label>
+            <select name="metode">
+              <option value="">Pilih</option>
+              <option>Transfer Bank</option><option>QRIS</option><option>Lainnya</option>
+            </select>
+          </div>
+          <div class="field"><label><i class="fa-solid fa-user"></i> Nama Pengirim</label><input name="namaPengirim"></div>
+          <div class="field"><label><i class="fa-solid fa-calendar-day"></i> Tanggal Pembayaran</label><input name="tanggalBayar" type="date"></div>
+          <div class="field"><label><i class="fa-solid fa-money-bill"></i> Nominal Pembayaran</label><input name="nominal" type="number" min="0"></div>
+          <div class="field"><label><i class="fa-solid fa-paperclip"></i> Bukti Transfer <span class="help">(JPG/PNG/PDF, maks 10 MB)</span></label><input name="bukti" id="bukti" type="file" accept=".jpg,.jpeg,.png,.pdf"></div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">06</div>
+          <div class="step-info"><h3>Persetujuan</h3><p>Wajib dicentang sebelum mengirim.</p></div>
+        </div>
+        <label class="check"><input type="checkbox" name="agree1" required><span>Saya menyatakan data yang saya isi benar.</span></label>
+        <label class="check"><input type="checkbox" name="agree2" required><span>Saya bersedia mengikuti seluruh ketentuan BOOMFEST KEDIRI.</span></label>
+        <label class="check"><input type="checkbox" name="agree3" required><span>Saya memahami slot resmi setelah data / pembayaran diverifikasi panitia.</span></label>
+
+        <div class="actions">
+          <button type="reset" class="btn dark"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+          <button type="submit" class="btn primary"><i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran</button>
+        </div>
+        <div id="status" class="status"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer id="kontak">
+  <div class="wrap footer-grid">
+    <div class="footer-brand"><img src="logo.png" alt="BOOMFEST"><span>BOOMFEST KEDIRI</span></div>
+    <div class="footer-links">
+      <a href="#paket">Paket</a>
+      <a href="#daftar">Daftar</a>
+      <a href="#pembayaran">Pembayaran</a>
+      <a href="#" target="_blank"><i class="fa-brands fa-instagram"></i> Instagram</a>
+      <a href="#" target="_blank"><i class="fa-brands fa-tiktok"></i> TikTok</a>
+    </div>
+    <div>© 2026 BOOMFEST KEDIRI • Tirtayasa Park</div>
+  </div>
+</footer>
+
+<a href="https://wa.me/6280000000000" class="float-wa" target="_blank" title="Hubungi Panitia"><i class="fa-brands fa-whatsapp"></i></a>
+
+<!-- ===== MODAL SUKSES ===== -->
+<div class="modal" id="successModal">
+  <div class="modalbox">
+    <div class="modal-icon"><i class="fa-solid fa-check"></i></div>
+    <h2>Pendaftaran Berhasil!</h2>
+    <p>Nomor registrasi kamu:</p>
+    <div class="code" id="regCode">BF-2026-00000</div>
+    <p id="modalText" class="help">Simpan nomor registrasi untuk konfirmasi via WhatsApp.</p>
+    <a id="waLink" class="wa" target="_blank"><i class="fa-brands fa-whatsapp"></i> Konfirmasi via WhatsApp</a>
+    <button class="btn dark" onclick="closeModal()" style="width:100%"><i class="fa-solid fa-xmark"></i> Tutup</button>
+  </div>
+</div>
+
+<script>
+const API_URL = "PASTE_WEB_APP_URL_HERE";
+const form = document.getElementById("tenantForm");
+const statusBox = document.getElementById("status");
+const paymentInfo = document.getElementById("paymentInfo");
+
+/* Status message */
+function setStatus(type, msg){
+  statusBox.className = "status show " + type;
+  const icon = type === "ok" ? "circle-check" : type === "err" ? "circle-exclamation" : "spinner fa-spin";
+  statusBox.innerHTML = `<i class="fa-solid fa-${icon}"></i> ${msg}`;
+}
+
+/* Close modal */
+function closeModal(){ document.getElementById("successModal").classList.remove("show"); }
+
+/* File to base64 */
+function base64File(file){
+  return new Promise((resolve, reject) => {
+    if(!file){ resolve(null); return; }
+    const r = new FileReader();
+    r.onload = () => resolve({ name: file.name, mimeType: file.type, data: r.result.split(",")[1] });
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+/* Copy to clipboard */
+document.querySelectorAll(".copy-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const target = document.getElementById(btn.dataset.copy);
+    if(!target) return;
+    const text = target.textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      const old = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+      setTimeout(() => btn.innerHTML = old, 1200);
+    });
+  });
+});
+
+/* Pilih paket dari card */
+document.querySelectorAll(".choose-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const paket = btn.dataset.paket;
+    const select = document.getElementById("paketSelect");
+    select.value = paket;
+    select.scrollIntoView({ behavior: "smooth", block: "center" });
+    select.style.animation = "none";
+    setTimeout(() => select.style.animation = "", 10);
+    select.focus();
+  });
+});
+
+/* Load config */
+async function loadConfig(){
+  if(API_URL.includes("PASTE_")){
+    ["pBank","pAccount","pName"].forEach(id => document.getElementById(id).textContent = "—");
+    return;
+  }
+  try {
+    const r = await fetch(API_URL + "?action=config");
+    const d = await r.json();
+    if(d.ok && d.config){
+      document.getElementById("pBank").textContent = d.config.bank || "—";
+      document.getElementById("pAccount").textContent = d.config.account || "—";
+      document.getElementById("pName").textContent = d.config.accountName || "—";
+    }
+  } catch(e){
+    console.warn("Config load failed:", e);
+  }
+}
+
+/* Submit form */
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if(API_URL.includes("PASTE_")){
+    setStatus("err", "Backend belum terhubung. Isi <b>API_URL</b> pada file index.html setelah Web App Google Apps Script dibuat.");
+    return;
+  }
+  const file = document.getElementById("bukti").files[0];
+  if(file && file.size > 10 * 1024 * 1024){
+    setStatus("err", "Bukti transfer maksimal 10 MB.");
+    return;
+  }
+  const fd = new FormData(form);
+  const payload = Object.fromEntries(fd.entries());
+  payload.action = "register";
+  payload.file = await base64File(file);
+
+  const btn = form.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Mengirim...';
+  setStatus("", "Mengirim data ke sistem...");
+
+  try {
+    const r = await fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: { "Content-Type": "text/plain;charset=utf-8" }
+    });
+    const d = await r.json();
+    if(!d.ok) throw new Error(d.message || "Pendaftaran gagal");
+
+    document.getElementById("regCode").textContent = d.registrationId;
+    document.getElementById("modalText").textContent = d.message || "Simpan nomor registrasi untuk konfirmasi.";
+    document.getElementById("waLink").href = d.whatsappUrl;
+    document.getElementById("successModal").classList.add("show");
+    form.reset();
+    setStatus("ok", "Pendaftaran berhasil dikirim. Cek email/WhatsApp untuk informasi selanjutnya.");
+  } catch(err){
+    setStatus("err", "Gagal mengirim: " + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran';
+  }
+});
+
+loadConfig();
+</script>
+</body>
+</html>
