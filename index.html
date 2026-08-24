@@ -51,6 +51,10 @@ a{text-decoration:none;color:inherit}
 img{max-width:100%;display:block}
 .wrap{width:min(1180px,calc(100% - 32px));margin:auto}
 
+/* Animasi Reveal saat Scroll */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.2,.9,.3,1.1), transform .8s cubic-bezier(.2,.9,.3,1.1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
 /* ===== NAVBAR ===== */
 nav{
   position:sticky;top:0;z-index:50;
@@ -68,11 +72,18 @@ nav{
 .btn{
   border:0;border-radius:11px;padding:12px 18px;font-weight:800;cursor:pointer;
   font-family:inherit;font-size:14px;transition:transform .15s,box-shadow .25s,background .2s;
-  display:inline-flex;align-items:center;gap:8px;
+  display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;
 }
 .btn:active{transform:scale(.97)}
 .primary{background:linear-gradient(135deg,var(--y),var(--y2));color:#000;box-shadow:0 6px 22px rgba(255,212,0,.32)}
 .primary:hover{box-shadow:0 10px 30px rgba(255,212,0,.45);transform:translateY(-1px)}
+/* Efek Kilau pada Tombol Primary */
+.primary::after{
+  content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);
+  transition:0.6s;
+}
+.primary:hover::after{left:100%}
 .dark{background:#1a1a1f;color:#fff;border:1px solid var(--line2)}
 .dark:hover{background:#22222a}
 .ghost{background:transparent;color:#fff;border:1px solid var(--line2)}
@@ -126,28 +137,65 @@ section{padding:70px 0;position:relative}
 .title h2{font-family:'Space Grotesk';font-size:clamp(28px,4.5vw,42px);margin:6px 0;letter-spacing:-1.5px;font-weight:700}
 .title p{color:var(--muted);max-width:560px;margin:8px auto 0}
 
-/* ===== CARDS ===== */
+/* ===== CARDS PREMIUM ===== */
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .card{
   background:linear-gradient(180deg,var(--card),var(--card2));
   border:1px solid var(--line);border-radius:20px;padding:26px;position:relative;overflow:hidden;
   transition:transform .3s,border-color .3s,box-shadow .3s;
 }
+/* Efek garis di atas card */
 .card::before{
   content:"";position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,transparent,#3a3a42,transparent);transition:.3s;
 }
 .card:hover{transform:translateY(-6px);border-color:var(--line2);box-shadow:0 20px 50px rgba(0,0,0,.5)}
 .card:hover::before{background:linear-gradient(90deg,transparent,var(--y),transparent)}
-.card.featured{border:1.5px solid var(--y);box-shadow:0 0 0 1px rgba(255,212,0,.2),0 20px 60px rgba(255,212,0,.12)}
+
+/* Card Featured (Keluap perlahan) */
+.card.featured{
+  border:1.5px solid rgba(255,212,0,.4);
+  animation: featuredPulse 3s infinite ease-in-out;
+}
+@keyframes featuredPulse{
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,212,0,0.1), 0 10px 40px rgba(0,0,0,0.4); }
+  50% { box-shadow: 0 0 25px 5px rgba(255,212,0,0.15), 0 15px 50px rgba(0,0,0,0.5); }
+}
 .card.featured::before{background:linear-gradient(90deg,transparent,var(--y),transparent)}
+
 .tag-pill{
   display:inline-block;font-size:11px;font-weight:900;letter-spacing:1.2px;color:var(--muted);
   text-transform:uppercase;margin-bottom:4px;
 }
 .card.featured .tag-pill{color:var(--y)}
-.price{font-family:'Space Grotesk';font-size:34px;font-weight:700;color:#fff;margin:6px 0 14px;letter-spacing:-1px}
+
+/* Animasi Slot Warning Premium (Titik Merah Berdenyut + Teks) */
+.slot-warn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255, 87, 87, 0.08);
+  backdrop-filter:blur(4px);
+  border:1px solid rgba(255, 87, 87, 0.3);
+  color:#ff8a8a;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;
+  letter-spacing:.5px;margin-bottom:12px;
+  box-shadow:0 4px 12px rgba(255, 87, 87, 0.1);
+}
+.slot-warn::before{
+  content:'';
+  width:8px;height:8px;border-radius:50%;
+  background:#ff5757;
+  box-shadow:0 0 8px #ff5757;
+  animation:pulse-dot 1.5s infinite ease-in-out;
+}
+@keyframes pulse-dot{
+  0%, 100% { transform:scale(1); opacity:1; }
+  50% { transform:scale(1.6); opacity:0.5; }
+}
+
+/* Harga Premium */
+.price{font-family:'Space Grotesk';font-size:32px;font-weight:700;color:#fff;margin:6px 0 14px;letter-spacing:-1px;display:flex;align-items:baseline;gap:4px}
 .price span{color:var(--y)}
+.price small{font-size:16px;color:var(--muted);font-weight:600}
+
 .card ul{padding:0;margin:14px 0 0;list-style:none}
 .card li{padding:9px 0;color:#c4c4c4;font-size:14px;display:flex;gap:10px;align-items:flex-start;border-top:1px solid var(--line)}
 .card li i{color:var(--y);font-size:11px;margin-top:5px}
@@ -269,8 +317,9 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px
 @keyframes popIn{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
 
 /* Floating help button */
-.float-wa{position:fixed;bottom:24px;right:24px;z-index:60;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 24px rgba(37,211,102,.5);transition:transform .2s}
+.float-wa{position:fixed;bottom:24px;right:24px;z-index:60;width:54px;height:54px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;font-size:22px;box-shadow:0 8px 24px rgba(37,211,102,.5);transition:transform .2s;animation:floatWa 2.5s infinite ease-in-out}
 .float-wa:hover{transform:scale(1.1) rotate(8deg)}
+@keyframes floatWa{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 /* Responsive */
 @media(max-width:860px){
@@ -338,15 +387,17 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px
 <!-- ===== PAKET ===== -->
 <section id="paket">
   <div class="wrap">
-    <div class="title">
+    <div class="title reveal">
       <small>PAKET TENANT</small>
       <h2>Pilih Paket Booth</h2>
       <p>Harga dan fasilitas dapat disesuaikan kembali di konfigurasi backend panitia.</p>
     </div>
     <div class="cards">
-      <div class="card">
+      <!-- PAKET UMKM -->
+      <div class="card reveal">
         <span class="tag-pill">UMKM</span>
-        <div class="price">Rp<span>750K</span></div>
+        <div class="slot-warn"><i class="fa-solid fa-triangle-exclamation"></i> Tersisa 3 Booth</div>
+        <div class="price">Rp <span>750.000</span></div>
         <ul>
           <li><i class="fa-solid fa-check"></i> Space ±2×2 m</li>
           <li><i class="fa-solid fa-check"></i> 1 meja + 2 kursi</li>
@@ -356,9 +407,12 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px
         </ul>
         <button class="btn dark choose-btn" data-paket="UMKM">Pilih Paket UMKM</button>
       </div>
-      <div class="card featured">
+      
+      <!-- PAKET REGULER -->
+      <div class="card featured reveal" style="transition-delay:.1s">
         <span class="tag-pill">★ REGULER • FAVORIT</span>
-        <div class="price">Rp<span>1.250K</span></div>
+        <div class="slot-warn"><i class="fa-solid fa-triangle-exclamation"></i> Tersisa 2 Booth</div>
+        <div class="price">Rp <span>950.000</span></div>
         <ul>
           <li><i class="fa-solid fa-check"></i> Space ±3×2 m</li>
           <li><i class="fa-solid fa-check"></i> Tenda / booth</li>
@@ -369,9 +423,12 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px
         </ul>
         <button class="btn primary choose-btn" data-paket="REGULER">Pilih Paket Reguler</button>
       </div>
-      <div class="card">
+      
+      <!-- PAKET PREMIUM -->
+      <div class="card reveal" style="transition-delay:.2s">
         <span class="tag-pill">PREMIUM / BRAND</span>
-        <div class="price">Rp<span>2.000K</span></div>
+        <div class="slot-warn"><i class="fa-solid fa-triangle-exclamation"></i> Tersisa 1 Booth</div>
+        <div class="price">Rp <span>1.250.000</span></div>
         <ul>
           <li><i class="fa-solid fa-check"></i> Space ±3×3 m</li>
           <li><i class="fa-solid fa-check"></i> Booth premium</li>
@@ -389,12 +446,12 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px
 <!-- ===== FORM ===== -->
 <section id="daftar">
   <div class="wrap">
-    <div class="title">
+    <div class="title reveal">
       <small>REGISTRATION</small>
       <h2>Form Pendaftaran Tenant</h2>
       <p>Isi data dengan benar. Setelah dikirim, data masuk ke sistem panitia dan nomor registrasi dibuat otomatis.</p>
     </div>
-    <div class="formbox">
+    <div class="formbox reveal">
       <form id="tenantForm">
 
         <div class="step">
@@ -435,9 +492,9 @@ footer{border-top:1px solid var(--line);padding:36px 0;color:#888;font-size:13px
           <div class="field"><label><i class="fa-solid fa-ticket"></i> Paket *</label>
             <select name="paket" id="paketSelect" required>
               <option value="">Pilih paket</option>
-              <option value="UMKM">UMKM — Rp750.000</option>
-              <option value="REGULER">REGULER — Rp1.250.000</option>
-              <option value="PREMIUM">PREMIUM / BRAND — Rp2.000.000</option>
+              <option value="UMKM">UMKM — Rp. 750.000</option>
+              <option value="REGULER">REGULER — Rp. 950.000</option>
+              <option value="PREMIUM">PREMIUM / BRAND — Rp. 1.250.000</option>
             </select>
           </div>
           <div class="field"><label><i class="fa-solid fa-users"></i> Jumlah Personel *</label>
@@ -666,6 +723,18 @@ form.addEventListener("submit", async e => {
     btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Kirim Pendaftaran';
   }
 });
+
+/* Animasi Reveal Scroll Premium */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 loadConfig();
 </script>
